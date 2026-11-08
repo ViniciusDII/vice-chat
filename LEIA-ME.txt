@@ -1,0 +1,4 @@
+VICE CHAT - prototipo
+index.html = pagina | css/style.css = visual | js/config.js = configuracoes (Supabase, banners)
+js/game.js = o jogo | img/ = imagens | fonts/ = fonte pixel
+Para testar: de dois cliques em index.html.
