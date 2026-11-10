@@ -48,6 +48,7 @@ header button{display:flex;gap:6px;align-items:center;background:#1a0b3b;border-
 
 #st{overflow:hidden}#ov{position:absolute;inset:0;transform-origin:0 0;pointer-events:none}#on,#co{font-family:PS2P,monospace;font-size:11px;font-weight:400}#sl span,#tr{font-family:PS2P,monospace;font-size:10px}
 #w{height:auto;min-height:100%}
-#en{background:var(--pk);color:#111;border:2px solid #fff;border-radius:6px;font-family:PS2P,monospace;font-size:calc(var(--u)*3.6);cursor:pointer;pointer-events:auto;padding:0}
+#en,#xd{background:var(--pk);color:#111;border:2px solid #fff;border-radius:6px;font-family:PS2P,monospace;font-size:calc(var(--u)*3.6);cursor:pointer;pointer-events:auto;padding:0}
 #cp{position:absolute;left:8px;right:8px;bottom:8px;background:#10082aee;border:1px solid var(--pk);border-radius:10px;padding:6px 8px;font-size:12px}
 #np{margin-bottom:4px;color:#ffd24a;font-family:PS2P,monospace;font-size:9px}#tl{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px}#cp button{padding:3px 8px;font-size:12px}
+#xd{background:#3aff9a}
