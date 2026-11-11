@@ -52,3 +52,4 @@ header button{display:flex;gap:6px;align-items:center;background:#1a0b3b;border-
 #cp{position:absolute;left:8px;right:8px;bottom:8px;background:#10082aee;border:1px solid var(--pk);border-radius:10px;padding:6px 8px;font-size:12px}
 #np{margin-bottom:4px;color:#ffd24a;font-family:PS2P,monospace;font-size:9px}#tl{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px}#cp button{padding:3px 8px;font-size:12px}
 #xd{background:#3aff9a}
+#m1>div{max-width:560px}.cd{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px;width:84px;font-size:11px}.cd.on{border-color:#fff}#gr{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0;max-height:34vh;overflow:auto}#cc{margin:6px 0}#tb{display:flex;flex-wrap:wrap}
