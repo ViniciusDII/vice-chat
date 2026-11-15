@@ -88,7 +88,7 @@ header button{display:flex;gap:6px;align-items:center;background:#1a0b3b;border-
 #m1 #gr{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:0;max-height:260px;overflow:auto}
 @media(max-width:560px){#m1 #gr{grid-template-columns:repeat(3,1fr)}}
 #m1 .cd{width:auto;background:#8a49d0;border:0;border-radius:6px;padding:8px 2px 4px;position:relative;font:400 8px PS2P,monospace;color:#fff;text-align:center}
-#m1 .cd canvas{width:48px;height:67px;image-rendering:pixelated}#m1 .cd small{display:block;margin-top:4px;line-height:1.3}
+#m1 .cd canvas{width:46px;height:68px;image-rendering:pixelated}#m1 .cd small{display:block;margin-top:4px;line-height:1.3}
 #m1 .cd.on{background-color:#b86be8;background-image:linear-gradient(#fff,#fff),linear-gradient(#fff,#fff),linear-gradient(#fff,#fff),linear-gradient(#fff,#fff),linear-gradient(#fff,#fff),linear-gradient(#fff,#fff),linear-gradient(#fff,#fff),linear-gradient(#fff,#fff);background-repeat:no-repeat;background-size:10px 3px,3px 10px,10px 3px,3px 10px,10px 3px,3px 10px,10px 3px,3px 10px;background-position:0 0,0 0,100% 0,100% 0,0 100%,0 100%,100% 100%,100% 100%}
 #ft{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}#ft button{font:400 9px PS2P,monospace}
 #tk{margin-top:10px;font-size:11px;color:#c9a8ff}.cbar{display:flex;justify-content:space-between;margin-top:12px}

@@ -3,42 +3,35 @@ const LIVE=!!(CONFIG.SUPABASE_URL&&window.supabase)&&!/[?&]demo=1/.test(location
 const SKY=['#1a0b3b','#2b0f55','#40136b','#5a1a7a','#7a2288','#a02f93','#c93d95','#e84d93','#ff6a8a','#ff8a7a','#ffab70','#ffc880'];
 const SKIN=['#f1c9a5','#d9a273','#a8704a','#6b4328'],HC=['#1a1a1a','#5a3a1a','#e8c14a','#ff4fd8','#46e0ff'],SH=['#ff4fd8','#46e0ff','#ffd24a','#7aff9a','#e8e8ff'],PN=['#2b2b55','#1a1a1a','#5a3a1a','#3a6a9a'];
 // ---- personagem chibi: peças desenhadas por retângulos (trocáveis por sprites do GPT depois) ----
-const SK=['#ffdfc4','#f1c9a5','#e0ac7e','#c68642','#a8704a','#8d5524','#6b4328','#4a2c1a'];
+const SK=['#ffdfc4','#fabd8f','#e0ac7e','#c68642','#a8704a','#8d5524','#6b4328','#4a2c1a'];
 const HCL=['#161616','#4a2c1a','#7a4a24','#e8c14a','#c8501e','#dddddd','#ff4fd8','#46e0ff','#7aff9a','#8a4fff'];
-const CLC=['#f4f4f4','#1a1a1a','#d9322e','#2e6fd9','#f2c230','#2e9a5a','#ff7ac8','#8a4fff','#f2822e','#8a8a95'];
-// [id, nome, preço em centavos de dólar (0 = grátis), retângulos [x,y,w,h,cor]]  cor: 's' pele, 'd' tom escuro da cor escolhida, vazio = cor escolhida
-const S={
-hair:[['hair_00','Bald',0,[]],['hair_01','Buzz cut',0,[[-5,-20,10,2]]],['hair_02','Side part',0,[[-5,-21,10,3],[-5,-18,2,2]]],['hair_03','Spiky',0,[[-5,-20,10,2],[-4,-22,2,2],[-1,-23,2,3],[2,-22,2,2]]],['hair_04','Long',0,[[-5,-21,10,3],[-6,-18,2,9],[4,-18,2,9]]],['hair_05','Ponytail',0,[[-5,-21,10,3],[4,-19,3,2],[5,-17,2,5]]],['hair_06','Afro',99,[[-7,-24,14,7],[-6,-18,2,3],[4,-18,2,3]]],['hair_07','Curly',0,[[-6,-22,12,5],[-7,-20,2,3],[5,-20,2,3]]],['hair_08','Mohawk',99,[[-1,-24,3,7],[-5,-19,10,1,'d']]],['hair_09','Slick back',99,[[-5,-21,10,3],[-5,-18,1,3],[-5,-21,10,1,'d']]],['hair_10','Mullet',99,[[-5,-21,10,3],[-6,-18,2,7],[4,-18,2,7]]],['hair_11','Bob',99,[[-6,-21,12,4],[-6,-17,2,5],[4,-17,2,5]]]],
-beard:[['beard_00','None',0,[]],['beard_01','Stubble',0,[[-4,-14,8,2]]],['beard_02','Full beard',99,[[-5,-14,10,3],[-4,-11,8,1]]],['beard_03','Goatee',0,[[-2,-13,4,2]]],['beard_04','Mustache',0,[[-3,-14,6,1]]],['beard_05','Chin strap',99,[[-5,-15,1,3],[4,-15,1,3],[-4,-12,8,1]]],['beard_06','Long beard',149,[[-5,-14,10,3],[-4,-11,8,3]]]],
-top:[['top_01','Tee',0,[[-4,-11,8,6],[-5,-11,1,3],[4,-11,1,3],[-5,-8,1,3,'s'],[4,-8,1,3,'s']]],['top_02','Hoodie',0,[[-4,-11,8,6],[-5,-11,1,6],[4,-11,1,6],[-2,-7,4,1,'d'],[-4,-12,8,1,'d']]],['top_03','Tank top',0,[[-3,-11,6,6],[-5,-11,1,5,'s'],[4,-11,1,5,'s'],[-4,-11,1,2,'s'],[3,-11,1,2,'s']]],['top_04','Hawaiian shirt',199,[[-4,-11,8,6],[-5,-11,1,3],[4,-11,1,3],[-5,-8,1,3,'s'],[4,-8,1,3,'s'],[-3,-10,1,1,'#ffd24a'],[0,-9,1,1,'#fff'],[2,-10,1,1,'#ff4fd8'],[-2,-7,1,1,'#fff'],[2,-7,1,1,'#ffd24a']]],['top_05','Leather jacket',249,[[-4,-11,8,6],[-5,-11,1,6],[4,-11,1,6],[0,-11,1,6,'#d8d8d8']]],['top_06','Suit',299,[[-4,-11,8,6],[-5,-11,1,6],[4,-11,1,6],[-1,-11,2,6,'#fff'],[0,-10,1,4,'#d9322e']]],['top_07','Crop top',149,[[-4,-11,8,3],[-5,-11,1,3],[4,-11,1,3],[-5,-8,1,3,'s'],[4,-8,1,3,'s'],[-4,-8,8,3,'s']]],['top_08','Jersey',199,[[-4,-11,8,6],[-5,-11,1,3],[4,-11,1,3],[-5,-8,1,3,'s'],[4,-8,1,3,'s'],[-4,-8,8,1,'#fff'],[-4,-6,8,1,'#fff']]]],
-bot:[['bot_01','Jeans',0,[[-4,-5,4,4],[0,-5,4,4]]],['bot_02','Shorts',0,[[-4,-5,4,2],[0,-5,4,2],[-3,-3,2,1,'s'],[1,-3,2,1,'s']]],['bot_03','Skirt',99,[[-4,-6,8,3],[-3,-3,2,1,'s'],[1,-3,2,1,'s']]],['bot_04','Track pants',99,[[-4,-5,4,4],[0,-5,4,4],[-4,-5,1,4,'#fff'],[3,-5,1,4,'#fff']]]],
-shoe:[['shoe_01','Sneakers',0,[[-4,-2,4,2,'#f4f4f4'],[0,-2,4,2,'#f4f4f4'],[-4,-1,4,1,'#aaa'],[0,-1,4,1,'#aaa']]],['shoe_02','Boots',149,[[-4,-3,4,3,'#6b4328'],[0,-3,4,3,'#6b4328']]],['shoe_03','Sandals',0,[[-4,-1,4,1,'#c8a15a'],[0,-1,4,1,'#c8a15a'],[-3,-2,2,1,'s'],[1,-2,2,1,'s']]],['shoe_04','Loafers',149,[[-4,-2,4,2,'#1a1a1a'],[0,-2,4,2,'#1a1a1a']]]],
-hat:[['hat_00','None',0,[]],['hat_01','Cap',0,[[-5,-22,10,3],[-7,-19,6,1,'d']]],['hat_02','Trucker cap',99,[[-5,-22,10,3,'#f4f4f4'],[-5,-22,10,1],[-7,-19,6,1,'d']]],['hat_03','Beanie',0,[[-5,-23,10,4],[-5,-20,10,1,'d']]],['hat_04','Bucket hat',149,[[-5,-22,10,3],[-7,-19,14,1,'d']]],['hat_05','Fedora',199,[[-4,-23,8,4],[-7,-20,14,1,'d'],[-4,-20,8,1,'#1a1a1a']]],['hat_06','Cowboy hat',249,[[-4,-24,8,5],[-8,-20,16,1,'d'],[-8,-21,2,1,'d'],[6,-21,2,1,'d']]],['hat_07','Bandana',99,[[-5,-21,10,3],[4,-19,3,2,'d'],[-5,-19,10,1,'d']]],['hat_08','Golf visor',99,[[-5,-21,10,2],[-7,-19,6,1,'d']]]],
-gl:[['gl_00','None',0,[]],['gl_01','Aviators',99,[[-4,-17,4,3,'#1a1a1a'],[0,-17,4,3,'#1a1a1a'],[-1,-16,1,1,'#1a1a1a']]],['gl_02','Round shades',99,[[-4,-17,4,3,'#2a2a55'],[0,-17,4,3,'#2a2a55'],[-1,-16,1,1,'#111'],[-3,-16,1,1,'#8ad']]],['gl_03','Neon hearts',149,[[-4,-17,4,3,'#ff4fd8'],[0,-17,4,3,'#ff4fd8'],[-1,-16,1,1,'#ff4fd8']]],['gl_04','Visor',199,[[-5,-17,10,3,'#46e0ff'],[-5,-17,10,1,'#8ff']]]],
-acc:[['acc_00','None',0,[]],['acc_01','Gold chain',299,[[-2,-12,4,1,'#ffd24a'],[-1,-11,2,2,'#ffd24a']]],['acc_02','Earrings',99,[[-6,-15,1,2,'#ffd24a'],[5,-15,1,2,'#ffd24a']]],['acc_03','Headphones',149,[[-5,-21,10,1,'#ddd'],[-6,-18,1,4,'#ddd'],[5,-18,1,4,'#ddd']]],['acc_04','Face mask',99,[[-4,-14,8,3,'#8ad0ff'],[-6,-15,1,3,'#8ad0ff'],[5,-15,1,3,'#8ad0ff']]]]};
-const PM={},PRICE={},NAME={};for(const k in S)for(const [id,n,pr,r] of S[k]){PM[id]=r;PRICE[id]=pr;NAME[id]=n}
-const DEF={skin:SK[1],hair:'hair_01',hc:HCL[1],beard:'beard_00',bc:HCL[1],top:'top_01',tc:CLC[3],bot:'bot_01',pc:CLC[9],shoe:'shoe_01',hat:'hat_00',htc:CLC[2],gl:'gl_00',acc:'acc_00'};
+const CLC=['#f4f4f4','#1a1a1a','#d9322e','#2e6fd9','#f2c230','#2e9a5a','#ff7ac8','#8a4fff','#f2822e','#8a8a95','#3a6a9a','#7a4a24','#1e2a5a','#46e0ff'];
+// S (catálogo de peças) vem de js/sprites.js (gerado a partir do corpo-base em pixel art)
+const PRICE={},NAME={};for(const k in S)for(const [id,n,pr] of S[k]){PRICE[id]=pr;NAME[id]=n}
+const DEF={skin:SK[1],hair:'hair_m01',hc:HCL[1],beard:'beard_00',bc:HCL[1],top:'top_m01',tc:CLC[2],bot:'bot_01',pc:CLC[10],shoe:'shoe_01',sc:CLC[0],hat:'hat_00',htc:CLC[2],gl:'gl_00',acc:'acc_00'};
 const FREE=k=>S[k].filter(x=>!x[2]).map(x=>x[0]);
-const rav=()=>({skin:rnd(SK),hair:rnd(FREE('hair')),hc:rnd(HCL),beard:rnd(['beard_00','beard_00',...FREE('beard')]),bc:rnd(HCL),top:rnd(FREE('top')),tc:rnd(CLC),bot:rnd(FREE('bot')),pc:rnd(CLC),shoe:rnd(FREE('shoe')),hat:rnd(['hat_00',...FREE('hat')]),htc:rnd(CLC),gl:'gl_00',acc:'acc_00'});
+const rav=()=>({skin:rnd(SK),hair:rnd(FREE('hair')),hc:rnd(HCL),beard:rnd(['beard_00','beard_00',...FREE('beard')]),bc:rnd(HCL),top:rnd(FREE('top')),tc:rnd(CLC),bot:rnd(FREE('bot')),pc:rnd(CLC),shoe:rnd(FREE('shoe')),sc:rnd(CLC),hat:rnd(['hat_00',...FREE('hat')]),htc:rnd(CLC),gl:'gl_00',acc:'acc_00'});
 const usd=c=>'$'+(c/100).toFixed(2);
 const shade=h=>{const n=parseInt(h.slice(1),16);return '#'+[n>>16&255,n>>8&255,n&255].map(v=>(v*.7|0).toString(16).padStart(2,'0')).join('')};
 // looks prontos (estilo GTA/Miami): é só um atalho; cada peça continua trocável
-const LOOKS=[['Street Crew',{hair:'hair_01',hat:'hat_07',htc:CLC[2],top:'top_02',tc:CLC[1],bot:'bot_04',pc:CLC[9],shoe:'shoe_01',gl:'gl_01',acc:'acc_01'}],
-['Miami Retiree',{hair:'hair_00',hat:'hat_08',htc:CLC[0],top:'top_04',tc:CLC[8],bot:'bot_02',pc:CLC[0],shoe:'shoe_03',gl:'gl_02',hc:HCL[5]}],
-['Country',{hair:'hair_10',hc:HCL[2],beard:'beard_02',bc:HCL[2],hat:'hat_02',htc:CLC[2],top:'top_03',tc:CLC[2],bot:'bot_01',pc:CLC[3],shoe:'shoe_02'}],
-['Miami Night',{hair:'hair_09',hc:HCL[0],top:'top_06',tc:CLC[6],bot:'bot_01',pc:CLC[0],shoe:'shoe_04',gl:'gl_02'}],
-['Beach',{hair:'hair_04',hc:HCL[3],top:'top_07',tc:CLC[6],bot:'bot_02',pc:CLC[3],shoe:'shoe_03',gl:'gl_03'}],
-['Biker',{hair:'hair_02',beard:'beard_02',top:'top_05',tc:CLC[1],bot:'bot_01',pc:CLC[3],shoe:'shoe_02',hat:'hat_07',htc:CLC[1],gl:'gl_01'}],
-['Club',{hair:'hair_08',hc:HCL[6],top:'top_08',tc:CLC[7],bot:'bot_04',pc:CLC[1],shoe:'shoe_01',gl:'gl_04'}],
-['Tourist',{hair:'hair_03',hat:'hat_04',htc:CLC[4],top:'top_04',tc:CLC[3],bot:'bot_02',pc:CLC[4],shoe:'shoe_03',gl:'gl_01',acc:'acc_03'}]];
+const LOOKS=[['Street Crew',{hair:'hair_m01',hat:'hat_07',htc:CLC[1],top:'top_m02',tc:CLC[1],bot:'bot_04',pc:CLC[1],shoe:'shoe_05',sc:CLC[0],gl:'gl_01',acc:'acc_01'}],
+['Miami Night',{hair:'hair_m10',hc:HCL[0],top:'top_m06',tc:CLC[6],bot:'bot_01',pc:CLC[0],shoe:'shoe_04',sc:CLC[1],gl:'gl_02'}],
+['Beach Boy',{hair:'hair_m11',hc:HCL[3],top:'top_m04',tc:CLC[13],bot:'bot_02',pc:CLC[4],shoe:'shoe_03',gl:'gl_03'}],
+['Biker',{hair:'hair_m03',hc:HCL[0],beard:'beard_02',bc:HCL[0],top:'top_m05',tc:CLC[1],bot:'bot_01',pc:CLC[12],shoe:'shoe_02',sc:CLC[1],gl:'gl_01'}],
+['Club Queen',{hair:'hair_f01',hc:HCL[0],top:'top_f01',tc:CLC[6],bot:'bot_08',pc:CLC[1],shoe:'shoe_01',sc:CLC[6],acc:'acc_02'}],
+['Sundress',{hair:'hair_f07',hc:HCL[3],top:'top_f05',tc:CLC[4],shoe:'shoe_03',sc:CLC[11],acc:'acc_06'}],
+['Sporty',{hair:'hair_f05',hc:HCL[1],top:'top_f10',tc:CLC[7],bot:'bot_08',pc:CLC[1],shoe:'shoe_01',sc:CLC[0]}],
+['Tourist',{hair:'hair_m05',hat:'hat_04',htc:CLC[4],top:'top_m04',tc:CLC[3],bot:'bot_06',pc:CLC[4],shoe:'shoe_03',gl:'gl_01',acc:'acc_03'}]];
 const ITEMS=[['pet_dog','pet','🐶','Dog',300],['pet_cat','pet','🐱','Cat',300],['pet_parrot','pet','🦜','Parrot',400],['pet_rabbit','pet','🐰','Rabbit',350],['pet_flamingo','pet','🦩','Flamingo',700],['pet_monkey','pet','🐒','Monkey',800],['pet_snake','pet','🐍','Python',900],['pet_croc','pet','🐊','Crocodile',1200],['pet_tiger','pet','🐯','Tiger',1500],
 ['car_moto','car','🏍️','Motorbike',900],['car_coupe','car','🏎️','Sports coupe',1200],['car_muscle','car','🚗','Muscle car',1400],['car_suv','car','🚙','Armored SUV',1800],['car_limo','car','🚐','Limo van',2500],
 ['st_palm','statue','🌴','Neon palm',600],['st_money','statue','💰','Money bag',700],['st_trophy','statue','🏆','Giant trophy',900],['st_dolphin','statue','🐬','Golden dolphin',1000],['st_crown','statue','👑','Giant crown',1500],
 ['aura_pink','aura','','Neon pink aura',500,'#ff4fd8'],['aura_blue','aura','','Neon blue aura',500,'#46e0ff']].map(([id,t,e,n,p,c])=>({id,t,e,n,p,c}));
 const TC={100:'#46e0ff',250:'#7aff9a',500:'#ffd24a',1000:'#ff4fa8'},DUR={0:5000,100:10000,250:20000,500:40000,1000:60000};
 const LN=['esse jogo tá brabo','vai lançar quando mesmo?','cidade linda demais','bora fazer um rolê?','tô aqui desde cedo kkk','alguém no cassino?','vai ter evento?','amei o mapa'];
+const MIGR={hair_01:'hair_m01',hair_02:'hair_m04',hair_03:'hair_m03',hair_04:'hair_f01',hair_05:'hair_f05',hair_06:'hair_m06',hair_07:'hair_m05',hair_08:'hair_m08',hair_09:'hair_m10',hair_10:'hair_m09',hair_11:'hair_f03',top_01:'top_m01',top_02:'top_m02',top_03:'top_m03',top_04:'top_m04',top_05:'top_m05',top_06:'top_m06',top_07:'top_f01',top_08:'top_m07'};
 let prof;try{prof=JSON.parse(localStorage.nco)}catch(e){}
 prof=Object.assign({name:'',av:Object.assign({},DEF),coins:5000,all:false,tier:'free',claims:{},inv:[],eq:{},ok:0},prof);
+(()=>{const m=id=>(typeof MIGR!=='undefined'&&MIGR[id])||id;for(const k of ['hair','top'])if(prof.av&&prof.av[k])prof.av[k]=m(prof.av[k]);prof.inv=(prof.inv||[]).map(m)})();
 const save=()=>{try{localStorage.nco=JSON.stringify(prof)}catch(e){}};
 const I18={"en": ["tap the ground to walk · mouse wheel = zoom", "GLOBAL CHAT", "Shop", "Super chat:", "Normal", "Type your message...", "Your character", "Your name", "Skin", "Hair", "Hair color", "Shirt", "Pants", "Accessory", "None", "Glasses", "Cap", "I accept the terms", "Read terms", "Enter", "Close", "Buy", "Equip", "Remove", "Not enough coins", "Choose a name", "Accept the terms to enter", "THE BIG LAUNCH IN:", "LIVE NOW!", "YOUR AD HERE", "BE TODAY'S TOP", "Card payments coming soon", "+50 coins (demo)", "Language", "d"], "es": ["toca el suelo para caminar · rueda del ratón = zoom", "CHAT GLOBAL", "Tienda", "Super chat:", "Normal", "Escribe tu mensaje...", "Tu personaje", "Tu nombre", "Piel", "Pelo", "Color de pelo", "Camiseta", "Pantalón", "Accesorio", "Ninguno", "Gafas", "Gorra", "Acepto los términos", "Leer términos", "Entrar", "Cerrar", "Comprar", "Equipar", "Quitar", "Monedas insuficientes", "Elige un nombre", "Acepta los términos para entrar", "EL GRAN LANZAMIENTO EN:", "¡YA DISPONIBLE!", "TU ANUNCIO AQUÍ", "SÉ EL TOP DE HOY", "Pagos con tarjeta próximamente", "+50 monedas (demo)", "Idioma", "d"], "pt": ["toque no chão para andar · roda do mouse = zoom", "CHAT GLOBAL", "Loja", "Super chat:", "Normal", "Digite sua mensagem...", "Seu personagem", "Seu nome", "Pele", "Cabelo", "Cor do cabelo", "Camisa", "Calça", "Acessório", "Nada", "Óculos", "Boné", "Li e aceito os termos", "Ler termos", "Entrar", "Fechar", "Comprar", "Equipar", "Tirar", "Moedas insuficientes", "Escolha um nome", "Aceite os termos para entrar", "O GRANDE LANÇAMENTO EM:", "NO AR!", "SEU ANÚNCIO AQUI", "SEJA O TOP DO DIA", "Pagamento por cartão em breve", "+50 moedas (demo)", "Idioma", "d"], "fr": ["touchez le sol pour marcher · molette = zoom", "CHAT GLOBAL", "Boutique", "Super chat :", "Normal", "Écrivez votre message...", "Votre personnage", "Votre nom", "Peau", "Cheveux", "Couleur des cheveux", "T-shirt", "Pantalon", "Accessoire", "Aucun", "Lunettes", "Casquette", "J'accepte les conditions", "Lire les conditions", "Entrer", "Fermer", "Acheter", "Équiper", "Retirer", "Pièces insuffisantes", "Choisissez un nom", "Acceptez les conditions pour entrer", "LE GRAND LANCEMENT DANS :", "DISPONIBLE !", "VOTRE PUB ICI", "SOYEZ LE TOP DU JOUR", "Paiement par carte bientôt", "+50 pièces (démo)", "Langue", "j"], "de": ["Boden antippen zum Laufen · Mausrad = Zoom", "GLOBALER CHAT", "Shop", "Super-Chat:", "Normal", "Nachricht eingeben...", "Deine Figur", "Dein Name", "Haut", "Haare", "Haarfarbe", "Shirt", "Hose", "Zubehör", "Keins", "Brille", "Kappe", "Ich akzeptiere die Bedingungen", "Bedingungen lesen", "Betreten", "Schließen", "Kaufen", "Anlegen", "Ablegen", "Nicht genug Münzen", "Wähle einen Namen", "Bedingungen akzeptieren, um einzutreten", "DER GROSSE START IN:", "JETZT LIVE!", "DEINE WERBUNG HIER", "WERDE TOP DES TAGES", "Kartenzahlung bald verfügbar", "+50 Münzen (Demo)", "Sprache", "T"], "it": ["tocca il suolo per camminare · rotella = zoom", "CHAT GLOBALE", "Negozio", "Super chat:", "Normale", "Scrivi il tuo messaggio...", "Il tuo personaggio", "Il tuo nome", "Pelle", "Capelli", "Colore capelli", "Maglia", "Pantaloni", "Accessorio", "Nessuno", "Occhiali", "Cappello", "Accetto i termini", "Leggi i termini", "Entra", "Chiudi", "Acquista", "Equipaggia", "Rimuovi", "Monete insufficienti", "Scegli un nome", "Accetta i termini per entrare", "IL GRANDE LANCIO TRA:", "IN ONDA!", "LA TUA PUBBLICITÀ QUI", "DIVENTA IL TOP DEL GIORNO", "Pagamento con carta in arrivo", "+50 monete (demo)", "Lingua", "g"], "ru": ["коснитесь земли, чтобы идти · колесо мыши = зум", "ОБЩИЙ ЧАТ", "Магазин", "Супер-чат:", "Обычный", "Введите сообщение...", "Ваш персонаж", "Ваше имя", "Кожа", "Волосы", "Цвет волос", "Футболка", "Штаны", "Аксессуар", "Нет", "Очки", "Кепка", "Я принимаю условия", "Читать условия", "Войти", "Закрыть", "Купить", "Надеть", "Снять", "Недостаточно монет", "Выберите имя", "Примите условия, чтобы войти", "ВЕЛИКИЙ ЗАПУСК ЧЕРЕЗ:", "УЖЕ В ЭФИРЕ!", "ВАША РЕКЛАМА ЗДЕСЬ", "СТАНЬ ТОПОМ ДНЯ", "Оплата картой скоро", "+50 монет (демо)", "Язык", "д"], "ja": ["地面をタップして移動 · マウスホイール=ズーム", "グローバルチャット", "ショップ", "スーパーチャット:", "通常", "メッセージを入力...", "あなたのキャラ", "あなたの名前", "肌", "髪型", "髪の色", "シャツ", "ズボン", "アクセサリー", "なし", "メガネ", "キャップ", "利用規約に同意します", "規約を読む", "入る", "閉じる", "購入", "装備", "外す", "コインが足りません", "名前を選んでください", "入るには規約への同意が必要です", "大型リリースまで:", "公開中!", "広告募集中", "今日のトップになろう", "カード決済は近日対応", "+50コイン(デモ)", "言語", "日"], "ko": ["바닥을 눌러 이동 · 마우스 휠 = 확대", "전체 채팅", "상점", "슈퍼챗:", "일반", "메시지를 입력하세요...", "내 캐릭터", "내 이름", "피부", "머리", "머리 색", "셔츠", "바지", "액세서리", "없음", "안경", "모자", "약관에 동의합니다", "약관 읽기", "입장", "닫기", "구매", "장착", "해제", "코인이 부족합니다", "이름을 선택하세요", "입장하려면 약관에 동의하세요", "대형 출시까지:", "지금 출시!", "광고 문의", "오늘의 TOP이 되세요", "카드 결제 곧 지원", "+50 코인(데모)", "언어", "일"], "zh": ["点击地面行走 · 鼠标滚轮=缩放", "全球聊天", "商店", "超级聊天:", "普通", "输入消息...", "你的角色", "你的名字", "肤色", "发型", "发色", "上衣", "裤子", "配饰", "无", "眼镜", "帽子", "我接受条款", "阅读条款", "进入", "关闭", "购买", "装备", "卸下", "金币不足", "请选择名字", "请接受条款后进入", "盛大发售倒计时:", "现已上线!", "广告位招租", "成为今日榜首", "银行卡支付即将上线", "+50金币(演示)", "语言", "天"], "tr": ["yürümek için zemine dokun · fare tekerleği = yakınlaştır", "GENEL SOHBET", "Mağaza", "Süper sohbet:", "Normal", "Mesajını yaz...", "Karakterin", "Adın", "Ten", "Saç", "Saç rengi", "Tişört", "Pantolon", "Aksesuar", "Yok", "Gözlük", "Şapka", "Şartları kabul ediyorum", "Şartları oku", "Gir", "Kapat", "Satın al", "Kuşan", "Çıkar", "Yetersiz jeton", "Bir isim seç", "Girmek için şartları kabul et", "BÜYÜK ÇIKIŞA:", "YAYINDA!", "REKLAMINIZ BURADA", "GÜNÜN ZİRVESİ OL", "Kartla ödeme yakında", "+50 jeton (demo)", "Dil", "g"], "hi": ["चलने के लिए ज़मीन पर टैप करें · माउस व्हील = ज़ूम", "ग्लोबल चैट", "दुकान", "सुपर चैट:", "सामान्य", "अपना संदेश लिखें...", "आपका किरदार", "आपका नाम", "त्वचा", "बाल", "बालों का रंग", "शर्ट", "पैंट", "एक्सेसरी", "कोई नहीं", "चश्मा", "टोपी", "मैं शर्तें स्वीकार करता/करती हूँ", "शर्तें पढ़ें", "प्रवेश करें", "बंद करें", "खरीदें", "पहनें", "हटाएँ", "सिक्के कम हैं", "एक नाम चुनें", "प्रवेश के लिए शर्तें स्वीकार करें", "बड़े लॉन्च में:", "अब लाइव!", "आपका विज्ञापन यहाँ", "आज के टॉप बनें", "कार्ड भुगतान जल्द", "+50 सिक्के (डेमो)", "भाषा", "दिन"]};
 const LGN=[["en", "English"], ["es", "Español"], ["pt", "Português"], ["fr", "Français"], ["de", "Deutsch"], ["it", "Italiano"], ["ru", "Русский"], ["ja", "日本語"], ["ko", "한국어"], ["zh", "中文"], ["tr", "Türkçe"], ["hi", "हिन्दी"]],TXT={"en": "1) Experimental, temporary project: it may change or shut down at any time without notice. 2) Coins and items are digital, have no cash value, are non-transferable and may be removed when the project ends. 3) Harassment, spam, illegal content and fraud are prohibited; accounts may be banned. 4) Not affiliated with Rockstar Games or Take-Two. 5) 18+ only, or with a guardian's permission. (Draft: review with a lawyer.)", "pt": "1) Projeto experimental e temporário: pode mudar ou ser encerrado a qualquer momento, sem aviso. 2) Moedas e itens são digitais, sem valor em dinheiro, intransferíveis e podem ser removidos ao encerrar. 3) Proibido assédio, spam, conteúdo ilegal e fraude; contas podem ser banidas. 4) Sem vínculo com a Rockstar Games ou a Take-Two. 5) Só para maiores de 18 anos ou com autorização dos responsáveis. (Rascunho: revise com um advogado.)"};
@@ -83,14 +76,28 @@ function light(){const k=sm(dn()[0]);
 const EM=['😀','😂','😎','🔥','❤️','👏','🎉','🚗','🐶','🐱','💎','🌴','😍','🤙','👑','🎮'];
 EM.forEach(e=>{const x=document.createElement('span');x.textContent=e;x.onclick=()=>{$('i').value+=e;$('i').focus()};$('ep').append(x)});
 $('em').onclick=()=>$('ep').classList.toggle('on');
-function drawAv(c,x,y,a,t,mv){a=Object.assign({},DEF,a);const f=mv?(t/150|0)%2:0,b=mv&&f?-1:0,Q=[],sk=a.skin;
- const L=(id,tn,al)=>{for(const [X,Y,w,h,k] of PM[id]||[])Q.push([X,Y+(Y<-4?b:0),w,h,k==='s'?sk:k==='d'?shade(tn):k||tn,al||1])};
- L(a.bot,a.pc);L(a.shoe);L(a.top,a.tc);
- Q.push([-5,-20+b,10,8,sk,1],[-4,-17+b,2,3,'#161616',1],[2,-17+b,2,3,'#161616',1],[-4,-17+b,1,1,'#fff',1],[2,-17+b,1,1,'#fff',1],[-5,-14+b,2,1,'#ff8a8a',1],[3,-14+b,2,1,'#ff8a8a',1],[-1,-13+b,2,1,'#a8554a',1]);
- L(a.beard,a.bc,a.beard==='beard_01'?.45:1);L(a.hair,a.hc);L(a.hat,a.htc);L(a.gl);L(a.acc);
- c.globalAlpha=1;c.fillStyle='#0006';c.fillRect(x-6,y-1,12,2);
- c.fillStyle='#150a14';for(const [X,Y,w,h,k,al] of Q)if(al===1)c.fillRect(x+X-1,y+Y-1,w+2,h+2);
- for(const [X,Y,w,h,k,al] of Q){c.globalAlpha=al;c.fillStyle=k;c.fillRect(x+X,y+Y,w,h)}c.globalAlpha=1}
+// ---- sprites: corpo-base fixo + camadas coloridas (js/sprites.js) ----
+const SPR=new Image();SPR.src=SPR_URL;let SPRC=null;const TCACHE={},ACACHE={};
+const h2r=h=>{const n=parseInt(h.slice(1),16);return [n>>16&255,n>>8&255,n&255]};
+function sprCell(id){if(!SPRC){if(!SPR.naturalWidth)return null;SPRC=document.createElement('canvas');SPRC.width=SPR.width;SPRC.height=SPR.height;SPRC.getContext('2d').drawImage(SPR,0,0)}
+ const i=SPR_IDX[id];if(i==null)return null;const [w,h]=SPR_CELL;return SPRC.getContext('2d').getImageData((i%SPR_COLS)*w,(i/SPR_COLS|0)*h,w,h)}
+// troca os tons-marcadores (cinzas = cor escolhida, pele) pela cor do jogador
+function tinted(id,col){const k=id+'|'+col;if(TCACHE[k])return TCACHE[k];const d=sprCell(id);if(!d)return null;
+ const C=h2r(col||'#888888'),px=d.data,mix=(a,b,t)=>a+(b-a)*t|0;
+ for(let i=0;i<px.length;i+=4){if(!px[i+3])continue;const r=px[i],g=px[i+1],b=px[i+2];let o=null;
+  if(r===g&&g===b){if(r===128)o=C;else if(r===192)o=[mix(C[0],255,.3),mix(C[1],255,.3),mix(C[2],255,.3)];else if(r===64)o=[C[0]*.66|0,C[1]*.66|0,C[2]*.66|0]}
+  else if(r===250&&g===189&&b===143)o=C;else if(r===237&&g===163&&b===119)o=[C[0]*.95|0,C[1]*.86|0,C[2]*.82|0];
+  if(o){px[i]=o[0];px[i+1]=o[1];px[i+2]=o[2]}}
+ const e=document.createElement('canvas');e.width=d.width;e.height=d.height;e.getContext('2d').putImageData(d,0,0);return TCACHE[k]=e}
+function avCanvas(a){const key=[a.skin,a.hair,a.hc,a.beard,a.bc,a.top,a.tc,a.bot,a.pc,a.shoe,a.sc,a.hat,a.htc,a.gl,a.acc].join();if(ACACHE[key])return ACACHE[key];
+ const e=document.createElement('canvas');e.width=SPR_CELL[0];e.height=SPR_CELL[1];const g=e.getContext('2d');let ok=SPR.naturalWidth>0;
+ const L=(id,col)=>{const t=tinted(id,col);if(t)g.drawImage(t,0,0)};
+ L('body',a.skin);if(!DRESS.includes(a.top))L(a.bot,a.pc);L(a.shoe,a.sc);L(a.top,a.tc);L(a.beard,a.bc);L(a.hair,a.hc);L(a.gl);L(a.hat,a.htc);L(a.acc);
+ if(ok){const ks=Object.keys(ACACHE);if(ks.length>400)delete ACACHE[ks[0]];ACACHE[key]=e}return e}
+function drawAv(c,x,y,a,t,mv){a=Object.assign({},DEF,a);for(const k of ['hair','top']){if(MIGR[a[k]])a[k]=MIGR[a[k]]}
+ const f=mv?(t/150|0)%2:0,b=mv&&f?-1:0,X=Math.round(x)-11;
+ c.globalAlpha=1;c.fillStyle='#0006';c.fillRect(Math.round(x)-6,y-1,12,2);c.imageSmoothingEnabled=false;
+ c.drawImage(avCanvas(a),X,y-33+b)}
 function drawCar(c,x,y,k){const F=(X,Y,w,h,q)=>{c.fillStyle=q;c.fillRect(x+X,y+Y,w,h)};F(-2,-1,22,2,'#0005');F(0,-5,20,4,k);F(4,-8,10,3,k);F(5,-7,3,2,'#9be8ff');F(10,-7,3,2,'#9be8ff');F(1,-2,4,3,'#111');F(14,-2,4,3,'#111');F(18,-4,2,1,'#ffe27a')}
 function drawPet(c,x,y,k,cat){const F=(X,Y,w,h,q)=>{c.fillStyle=q;c.fillRect(x+X,y+Y,w,h)};F(-3,-1,7,1,'#0004');F(-3,-4,6,3,k);F(2,-6,3,3,k);F(2,-7,1,1,k);F(4,-7,1,1,k);F(-4,cat?-7:-5,1,cat?4:2,k);F(-3,-1,1,1,'#222');F(1,-1,1,1,'#222');F(4,-5,1,1,'#111')}
 // ---- NPCs, boate e música (tudo sintetizado no navegador: sem arquivos, sem direitos autorais) ----
@@ -99,15 +106,12 @@ const GQ={en:['CLOSED FOR MAINTENANCE... COME BACK LATER.','NOT TONIGHT, PAL. MA
 const CS={en:{enter:'🎶 ENTER CLUB',exit:'⬅ EXIT',door:'🚪 EXIT',now:'NOW PLAYING',q:'QUEUE'},pt:{enter:'🎶 ENTRAR NA BOATE',exit:'⬅ SAIR',door:'🚪 SAIR',now:'TOCANDO',q:'FILA'}};
 const ct=k=>(CS[prof.lang]||CS.en)[k];
 function clubTxt(){$('en').textContent=ct('enter');$('ex').textContent=ct('exit');$('xd').textContent=ct('door')}
-function drawGuard(c,x,y){const F=(X,Y,w,h,k)=>{c.fillStyle=k;c.fillRect(x+X,y+Y,w,h)};
- F(-9,-1,18,2,'#0005');F(-5,-9,4,8,'#0c0c12');F(1,-9,4,8,'#0c0c12');F(-5,-2,4,2,'#000');F(1,-2,4,2,'#000');
- F(-8,-21,16,13,'#14141c');F(-8,-21,16,1,'#2a2a38');F(-1,-21,2,9,'#e8e8ff');F(-1,-20,2,1,'#111');
- F(-10,-20,3,10,'#14141c');F(7,-20,3,10,'#14141c');F(-7,-15,14,3,'#1c1c28');F(-10,-11,2,2,'#4a2c1a');F(8,-11,2,2,'#4a2c1a');
- F(-4,-29,8,8,'#4a2c1a');F(-4,-29,8,2,'#120a06');F(-4,-26,8,2,'#000');F(-3,-26,2,1,'#3a3a55');F(1,-26,2,1,'#3a3a55');F(4,-25,1,3,'#222')}
-const DJAV={skin:SK[6],hair:'hair_01',hc:HCL[0],top:'top_02',tc:CLC[7],bot:'bot_04',pc:CLC[1],shoe:'shoe_01',gl:'gl_02'};
+const GUARDAV={skin:SK[5],hair:'hair_00',top:'top_m06',tc:CLC[1],bot:'bot_01',pc:CLC[1],shoe:'shoe_04',sc:CLC[1],hat:'hat_01',htc:CLC[1],gl:'gl_02'};
+function drawGuard(c,x,y){drawAv(c,x,y,GUARDAV,0,0)}
+const DJAV={skin:SK[6],hair:'hair_m01',hc:HCL[0],top:'top_m02',tc:CLC[7],bot:'bot_04',pc:CLC[1],shoe:'shoe_01',sc:CLC[1],gl:'gl_02',acc:'acc_03'};
 function drawDJ(c,x,y,t){const pb=NOW?((Date.now()-NOW.t0)/1000*TR[NOW.id].bpm/60)%1:0,b=pb<.2?-1:0,F=(X,Y,w,h,k)=>{c.fillStyle=k;c.fillRect(x+X,y+Y,w,h)};
- drawAv(c,x,y+b,DJAV,t,0);F(-5,-21+b,10,1,'#e8e8f0');F(-6,-18+b,1,4,'#e8e8f0');F(5,-18+b,1,4,'#e8e8f0')}
-const GD={name:'SECURITY',x:102,y:190,tx:102,ty:190,px:0,py:0,mv:0,say:'',sayT:0,sc:'plaza',cool:0,i:-1,eq:{},av:DEF,col:'#ffd24a',hh:6,max:48,draw:(c,p)=>drawGuard(c,p.x,p.y)};
+ drawAv(c,x,y+b,DJAV,t,0)}
+const GD={name:'SECURITY',x:102,y:190,tx:102,ty:190,px:0,py:0,mv:0,say:'',sayT:0,sc:'plaza',cool:0,i:-1,eq:{},av:DEF,col:'#ffd24a',hh:0,max:48,draw:(c,p)=>drawGuard(c,p.x,p.y)};
 const DJ={name:'DJ',x:320,y:112,tx:320,ty:112,px:0,py:0,mv:0,say:'',sayT:0,sc:'club',eq:{},av:DEF,col:'#7ae0ff',draw:(c,p,t)=>drawDJ(c,p.x,p.y,t)};
 const NPCS=[GD,DJ];
 // música: 6 faixas originais geradas por código (sintetizador), sincronizadas pelo relógio
@@ -162,13 +166,13 @@ function loop(t){const dt=Math.min(.05,(t-loop.l)/1000||0);loop.l=t;if(me&&SC===
   if(a){cx.strokeStyle=a.c;cx.globalAlpha=.5+.3*Math.sin(t/200);cx.lineWidth=1;cx.beginPath();cx.ellipse(p.x,p.y-1,10,3,0,0,7);cx.stroke();cx.globalAlpha=1}
   drawObj(p,dt,t,it);if(p.draw)p.draw(cx,p,t);else drawAv(cx,p.x,p.y,p.av,t,p.mv)}
  if(SC==='club'&&CL.naturalWidth)cx.drawImage(CL,545,205,195,80,272.5,102.5,97.5,40);if(SC==='plaza'){if(TP.av)drawAv(cx,320,52,TP.av,t,0);light()}cx.font='5px PS2P,monospace';cx.textAlign='center';cx.lineJoin='round';if(SC==='plaza')roofLabel();
- for(const p of L){cx.lineWidth=2;cx.strokeStyle='#000';cx.fillStyle=p.col;const ny=p.y-24-(p.hh||0);cx.strokeText(p.name,p.x,ny);cx.fillText(p.name,p.x,ny);
+ for(const p of L){cx.lineWidth=2;cx.strokeStyle='#000';cx.fillStyle=p.col;const ny=p.y-34-(p.hh||0);cx.strokeText(p.name,p.x,ny);cx.fillText(p.name,p.x,ny);
   if(p.say&&t<p.sayT){const s=p.say.length>(p.max||28)?p.say.slice(0,(p.max||28)-1)+'…':p.say,w=cx.measureText(s).width+6;cx.fillStyle=p.sc||'#fff';cx.fillRect(p.x-w/2,ny-16,w,10);cx.fillStyle='#111';cx.fillText(s,p.x,ny-8)}}
  fxFrame(t);requestAnimationFrame(loop)}
 // ---- chat ----
 const ms=$('ms');
 function addMsg(n,tx,tier,col){const d=document.createElement('div'),b=document.createElement('b');b.textContent=n+': ';b.style.color=tier?'#111':col;d.append(b,document.createTextNode(tx));if(tier){d.className='sc';d.style.background=TC[tier]}ms.append(d);while(ms.children.length>60)ms.firstChild.remove();ms.scrollTop=ms.scrollHeight}
-function roofLabel(){const s='👑 '+(TP.n?TP.n+' · '+TP.v+' 🪙':t(30)),y=TP.av?22:46;cx.lineWidth=2;cx.strokeStyle='#000';cx.fillStyle='#ffd24a';cx.strokeText(s,320,y);cx.fillText(s,320,y)}
+function roofLabel(){const s='👑 '+(TP.n?TP.n+' · '+TP.v+' 🪙':t(30)),y=TP.av?14:46;cx.lineWidth=2;cx.strokeStyle='#000';cx.fillStyle='#ffd24a';cx.strokeText(s,320,y);cx.fillText(s,320,y)}
 function say(p,tx,tier){p.say=tx;p.sayT=performance.now()+DUR[tier];p.sc=tier?TC[tier]:'';addMsg(p.name,tx,tier,p.col);if(tier){tot[p.name]=(tot[p.name]||0)+tier;if(tot[p.name]>TP.v){TP={n:p.name,v:tot[p.name],av:p.av}}}}
 function updHud(){$('on').textContent='🟢 ONLINE: '+P.size;$('co').textContent=LIVE?'':usd(prof.coins);const T_=TIERS.find(x=>x.id===prof.tier)||TIERS[0];$('pk').textContent=T_.ic+' '+T_.n}
 $('tr').disabled=LIVE;
@@ -221,8 +225,8 @@ let draft,tab='lk',ROT=false;
 const OWN=id=>!PRICE[id]||prof.all||prof.inv.includes(id);
 const need=()=>['hair','beard','top','bot','shoe','hat','gl','acc'].map(k=>draft[k]).filter(id=>!OWN(id));
 const TABS=[['lk','✨ Looks'],['hair','💇 Hair'],['beard','🧔 Beard'],['top','👕 Tops'],['bot','👖 Bottoms'],['shoe','👟 Shoes'],['hat','🧢 Hats'],['gl','🕶️ Glasses'],['acc','⛓️ Extras'],['skin','🎨 Skin']];
-const TINT={hair:['hc',HCL],beard:['bc',HCL],top:['tc',CLC],bot:['pc',CLC],hat:['htc',CLC]};
-const mini=d=>{const e=document.createElement('canvas');e.width=40;e.height=56;const c=e.getContext('2d');c.setTransform(2,0,0,2,0,0);drawAv(c,10,27,d,0,0);return e};
+const TINT={hair:['hc',HCL],beard:['bc',HCL],top:['tc',CLC],bot:['pc',CLC],shoe:['sc',CLC],hat:['htc',CLC]};
+const mini=d=>{const e=document.createElement('canvas');e.width=46;e.height=68;const c=e.getContext('2d');c.setTransform(2,0,0,2,0,0);drawAv(c,11,33,d,0,0);return e};
 const mkb=(cls,fn)=>{const b=document.createElement('button');b.className=cls;b.onclick=fn;return b};
 function editor(){
  const tb=$('tb');tb.innerHTML='';for(const [k,l] of TABS){const b=mkb('ch'+(tab===k?' on':''),()=>{tab=k;editor()});b.textContent=l.split(' ')[0];b.title=l;tb.append(b)}
@@ -235,7 +239,7 @@ function editor(){
  const nd=need(),tot=nd.reduce((s,id)=>s+PRICE[id],0),ft=$('ft');ft.innerHTML='';
  if(RANK()>0)for(const id of nd){const ct=catOf(id);if(!prof.claims[ct]){const b=mkb('',()=>{prof.claims[ct]=id;prof.inv.push(id);save();editor()});b.textContent='🎁 FREE: '+NAME[id];b.disabled=LIVE;ft.append(b)}}
  if(nd.length){const b=mkb('',()=>{if(prof.coins<tot)return toast(t(24));prof.coins-=tot;prof.inv.push(...nd);save();updHud();editor()});b.textContent='🛒 Buy '+nd.length+' · '+usd(tot);b.disabled=LIVE;ft.append(b)}
- const c=$('pv').getContext('2d');c.setTransform(1,0,0,1,0,0);c.clearRect(0,0,168,224);c.setTransform(ROT?-7:7,0,0,7,84,0);drawAv(c,0,31,draft,0,0)}
+ const c=$('pv').getContext('2d');c.setTransform(1,0,0,1,0,0);c.clearRect(0,0,168,224);c.setTransform(ROT?-6:6,0,0,6,84,0);drawAv(c,0,33,draft,0,0)}
 function openAv(){draft=Object.assign({},DEF,prof.av);$('nm').value=prof.name;$('tk').style.display=prof.ok?'none':'';$('m1').classList.add('on');editor()}
 $('ba').onclick=openAv;$('rt').onclick=()=>{ROT=!ROT;editor()};$('bk').onclick=()=>{$('m1').classList.remove('on');if(!prof.ok)packs(true)};
 $('go').onclick=()=>{const n=$('nm').value.trim().slice(0,16);if(!n)return toast(t(25));if(need().length)return toast('🔒 Buy or remove locked items');if(!prof.ok&&!$('ok').checked)return toast(t(26));prof.name=n;prof.av=Object.assign({},draft);prof.ok=1;save();$('m1').classList.remove('on');start()};

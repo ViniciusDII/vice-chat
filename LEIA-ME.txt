@@ -2,3 +2,13 @@ VICE CHAT - prototipo
 index.html = pagina | css/style.css = visual | js/config.js = configuracoes (Supabase, banners)
 js/game.js = o jogo | img/ = imagens | fonts/ = fonte pixel
 Para testar: de dois cliques em index.html.
+
+=== v9: NOVO VISUAL (sprites pixel art sobre o corpo-base) ===
+- O corpo (sprite_humanoide) e a base fixa: grade 15x26 px, nunca e alterado.
+- js/sprites.js = atlas PNG embutido (base64) + catalogo. GERADO por tools/build.py.
+- 24 cabelos (12 masc + 12 fem), 25 roupas (13 masc + 12 fem, 3 vestidos), 9 calcas/saias/shorts,
+  5 sapatos (so muda a cor), 8 chapeus, 5 oculos, 6 barbas, 6 acessorios.
+- Todas as pecas coloridas usam os tons marcadores (cinza = cor escolhida); pele troca o tom da base.
+- Para editar uma peca: tools/hair.py (cabelos) ou tools/parts2.py (resto), depois: cd tools && python3 build.py
+  e copie out/sprites.js para js/sprites.js. (requer Python + Pillow)
+- Saves antigos sao migrados automaticamente (ids hair_01.. -> hair_m01..).
