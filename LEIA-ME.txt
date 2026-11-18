@@ -1,14 +1,34 @@
-VICE CHAT - prototipo
-index.html = pagina | css/style.css = visual | js/config.js = configuracoes (Supabase, banners)
-js/game.js = o jogo | img/ = imagens | fonts/ = fonte pixel
-Para testar: de dois cliques em index.html.
+VICE CHAT / NEON COAST - prototipo (HTML + CSS + JS puro, sem build)
+Para testar: dois cliques em index.html. Modo DEMO: index.html?demo=1 (bots). Teste de pacotes: index.html?demo=1&dev=1 (os botoes de compra simulam; sem &dev=1 ficam "EM BREVE").
 
-=== v9: NOVO VISUAL (sprites pixel art sobre o corpo-base) ===
-- O corpo (sprite_humanoide) e a base fixa: grade 15x26 px, nunca e alterado.
-- js/sprites.js = atlas PNG embutido (base64) + catalogo. GERADO por tools/build.py.
-- 24 cabelos (12 masc + 12 fem), 25 roupas (13 masc + 12 fem, 3 vestidos), 9 calcas/saias/shorts,
-  5 sapatos (so muda a cor), 8 chapeus, 5 oculos, 6 barbas, 6 acessorios.
-- Todas as pecas coloridas usam os tons marcadores (cinza = cor escolhida); pele troca o tom da base.
-- Para editar uma peca: tools/hair.py (cabelos) ou tools/parts2.py (resto), depois: cd tools && python3 build.py
-  e copie out/sprites.js para js/sprites.js. (requer Python + Pillow)
-- Saves antigos sao migrados automaticamente (ids hair_01.. -> hair_m01..).
+ARQUIVOS
+ index.html            pagina e modais (avatar m1, loja/inventario m2, DJ m3, pacotes m4, termos m5)
+ css/style.css         visual neon roxo/rosa
+ js/config.js          Supabase e banners
+ js/game.js            o jogo (avatar por retangulos, pacotes, chat, loja)
+ js/px.js              PIXEL ART EM CODIGO: emojis do chat (16), icones de interface, pets, carros, estatuas (provisorios)
+ js/i18n.js            textos novos em 12 idiomas (en, es, pt, fr, de, it, ru, ja, ko, zh, tr, hi). Ingles = principal e fallback. Use x('chave') no JS ou data-x="chave" no HTML.
+ js/termos.js          GERADO a partir de termos.md + termos.pt.md (node tools/build-termos.js). Nao edite.
+ termos.md             termos de uso em INGLES (versao que prevalece). termos.pt.md = copia em portugues. RASCUNHO: precisa de revisao juridica antes do lancamento.
+                       Idiomas sem texto proprio dos termos mostram o ingles com aviso de traducao. Nomes de itens (cabelos, roupas, pets) seguem em ingles.
+ assets/ui, assets/shop  PNGs exportados do px.js (node tools/export-assets.js); assets/avatar reservado para a arte do PixelLab
+ assets/manifest.json  item, prompt, ferramenta, data, creditos gastos (tudo em codigo = 0 creditos)
+ tools/                png.js (gravador), preview.js (folha de contato), export-assets.js, slice-sheet.js (corta folha 5x5 -> PNGs; substitui o Pillow, sem dependencias), build-termos.js
+ ref/                  referencias de estilo (corpo, penteados)
+
+PACOTES (js/game.js, constante TIERS)
+ Free: anda, zoom, entra no clube, pecas basicas, chat so com emojis em pixel art (:nome:).
+ Vice Citizen $1: chat de texto + 1 carro + 1 estatua (escolha na Loja) + 5 conjuntos de skin sorteados na compra (salvos em prof.sets).
+ Vice Gangster $5: chat de texto + tudo (prof.all). Vice Boss removido (perfis antigos 'boss' viram gangster).
+ Vitrine nos cards: skins reais; pets/carros/estatuas aparecem como moldura "em breve" (VIT_ART em game.js; vire true quando a arte final existir).
+
+PONTOS DE INTEGRACAO DO STRIPE (fora de escopo agora)
+ - game.js: PAY_READY=false; startCheckout(id) chama a Edge Function create-checkout {tier:id}; buyTier() decide o fluxo.
+ - O webhook deve gravar tier/sets/itens no servidor (hoje tudo fica em localStorage = prof). grantTier(id) e drawSets(n) mostram a logica; o sorteio deve passar a rodar no servidor.
+ - Direito de desistencia de 7 dias (termos.md, clausula 5): precisa de fluxo de reembolso/revogacao.
+ - Aceite dos termos: prof.terms={v,at}. Mover para o servidor junto com a compra.
+
+DECISOES PENDENTES
+ - Revisao juridica de termos.md (contato, foro, texto do reembolso).
+ - "headnecks" (roupas): significado nao claro; nao implementado.
+ - Orcamento PixelLab (ver resumo da sessao).
